@@ -1,7 +1,11 @@
-FROM node:18-alpine
+FROM golang:1.22-alpine AS builder
 WORKDIR /app
-COPY package*.json ./
-RUN npm install --production
-COPY src ./src
+COPY go.mod ./
+COPY main.go ./
+RUN go build -o service .
+
+FROM alpine:3.19
+WORKDIR /app
+COPY --from=builder /app/service .
 EXPOSE 3001
-CMD ["node", "src/index.js"]
+CMD ["./service"]

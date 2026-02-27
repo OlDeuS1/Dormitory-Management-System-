@@ -27,12 +27,6 @@ func main() {
 
 	repo := &repository.UserRepository{DB: db}
 
-	// 🔥 Seed mock users ถ้ายังไม่มีข้อมูล
-	if repo.Count() == 0 {
-		repo.Create(&model.User{Username: "admin", Password: "1234", Role: "admin"})
-		repo.Create(&model.User{Username: "tenant1", Password: "1234", Role: "tenant"})
-	}
-
 	r := gin.Default()
 
 	r.POST("/login", func(c *gin.Context) {

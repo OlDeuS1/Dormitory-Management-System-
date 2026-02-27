@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - STUDENT_SERVICE_URL=http://student-service:3001
+      - ROOM_SERVICE_URL=http://room-service:3002
+      - BOOKING_SERVICE_URL=http://booking-service:3003
+    depends_on:
+      - student-service
+      - room-service
+      - booking-service
+
+  student-service:
+    build: ./student-service
+    ports:
+      - "3001:3001"
+
+  room-service:
+    build: ./room-service
+    ports:
+      - "3002:3002"
+
+  booking-service:
+    build: ./booking-service
+    ports:
+      - "3003:3003"
